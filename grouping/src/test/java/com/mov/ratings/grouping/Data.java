@@ -8,14 +8,11 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Set;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 public class Data {
-	private List<Object> list;
-
-	public HashMap<Integer,List<String>> getUsersList()
+private List<Object> list;
+public HashMap<Integer,List<String>> getUsersList()
 	{
 //	Scanner scn = new Scanner(System.in);	
 //	Defining Age and Occupation 
@@ -65,7 +62,6 @@ public class Data {
         }
 	return Users;
 	}
-
 public HashMap<Integer,String> createMap(String[] Age)
 	{
 		HashMap<Integer,String> Mp=new HashMap<Integer,String>();
@@ -150,15 +146,14 @@ public void getTopList(){
 }
 private void sortRatings(ListMultimap<Integer, Integer> Ratings){
 	HashMap<Integer,String> Rated =  new HashMap<Integer,String>();
-Iterator<Integer> Iter= Ratings.keySet().iterator();
-while(Iter.hasNext())
+for(Integer Iter:Ratings.keySet())
 {
 	DecimalFormat df = new DecimalFormat ();
 	df.setMaximumFractionDigits (1);
 	df.setMinimumFractionDigits (1);
 	Float Sum=0.f;
 	int count=0;
-	int Key=Iter.next();
+	int Key=Iter;
 	List<Integer> list = Ratings.get(Key);
 for (int value : list) {
    Sum=Sum+value;
@@ -167,22 +162,14 @@ for (int value : list) {
 Rated.put(Key,String.valueOf(df.format(Sum/count)));
 }
 Map<Integer, String> map = sortByValues(Rated); 
-Set<?> set2 = map.entrySet();
-Iterator<?> iterator2 = set2.iterator();
-int i=0;
-while(iterator2.hasNext()) {
-     @SuppressWarnings("rawtypes")
-	Map.Entry me2 = (Map.Entry)iterator2.next();
-     if(i<250){
-     System.out.print(me2.getKey() + ": ");
-     System.out.println(me2.getValue());
-     i++;
-     }
+for(Map.Entry<Integer,String> Map:map.entrySet())
+{
+     System.out.print(Map.getKey() + ": ");
+     System.out.println(Map.getValue());
 }
 }
 
 private HashMap<Integer, String> sortByValues(HashMap<Integer, String> map) {
-	
 	list = new LinkedList<Object>(map.entrySet());
     // Defined Custom Comparator here
     Collections.sort(list, new Comparator<Object>() {
@@ -195,10 +182,14 @@ private HashMap<Integer, String> sortByValues(HashMap<Integer, String> map) {
     // Here I am copying the sorted list in HashMap
     // using LinkedHashMap to preserve the insertion order
     HashMap<Integer, String> sortedHashMap = new LinkedHashMap<Integer, String>();
-    for (Iterator<Object> it = list.iterator(); it.hasNext();) {
+    int i=0;
+    for (Object it : list) {
            @SuppressWarnings("unchecked")
-		Map.Entry<Integer, String> entry = (Map.Entry<Integer, String>) it.next();
-           sortedHashMap.put(entry.getKey(), entry.getValue());
+		Map.Entry<Integer, String> entry = (Map.Entry<Integer,String>) it;
+           if(i<250) {
+        	   sortedHashMap.put(entry.getKey(), entry.getValue());
+        	   i++;
+           }
     } 
     return sortedHashMap;
     } 
